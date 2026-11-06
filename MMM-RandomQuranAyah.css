@@ -1,0 +1,21 @@
+.MMM-RandomQuranAyah .txt-arabic {
+	direction: rtl;
+	text-align: center;
+	line-height: 1.55;
+	margin-bottom: 6px;
+}
+
+.MMM-RandomQuranAyah .txt-translation {
+	text-align: center;
+	line-height: 1.4;
+	font-style: italic;
+}
+
+.MMM-RandomQuranAyah .txt-reference {
+	text-align: center;
+	margin-top: 2px;
+}
+
+.MMM-RandomQuranAyah .error {
+	color: #ff6b6b;
+}
