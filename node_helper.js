@@ -9,6 +9,7 @@ const NodeHelper = require("node_helper");
 
 const API_BASE = "https://api.alquran.cloud/v1";
 const TOTAL_AYAHS = 6236;
+const DEFAULT_ARABIC = "quran-uthmani";
 const DEFAULT_TRANSLATION = "en.yusufali";
 const FETCH_TIMEOUT_MS = 15000;
 
@@ -53,10 +54,11 @@ module.exports = NodeHelper.create({
 	},
 
 	async fetchAyah(payload) {
+		const arabicEdition = payload.arabicEdition || DEFAULT_ARABIC;
 		const translationLang = payload.translationLang || DEFAULT_TRANSLATION;
 		const rotationMode = payload.rotationMode || "random";
 		const ayahNumber = this.pickAyahNumber(rotationMode);
-		const editions = `ar,${translationLang}`;
+		const editions = `${arabicEdition},${translationLang}`;
 		const url = `${API_BASE}/ayah/${ayahNumber}/editions/${editions}`;
 
 		const result = await this.fetchJson(url);

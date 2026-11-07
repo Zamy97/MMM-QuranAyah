@@ -3,6 +3,7 @@ Module.register("MMM-RandomQuranAyah", {
 		showArabic: true,
 		showTranslation: true,
 		surahArabicName: false,
+		arabicEdition: "quran-uthmani",
 		translationLang: "en.yusufali",
 		rotationMode: "random",
 		updateInterval: 300000,
@@ -35,6 +36,7 @@ Module.register("MMM-RandomQuranAyah", {
 
 	requestAyah() {
 		this.sendSocketNotification("GET_AYAH", {
+			arabicEdition: this.config.arabicEdition,
 			translationLang: this.config.translationLang,
 			rotationMode: this.config.rotationMode
 		});
@@ -81,7 +83,7 @@ Module.register("MMM-RandomQuranAyah", {
 		if (this.config.showArabic && ayah.arabic) {
 			const arabic = document.createElement("div");
 			arabic.className = "txt-arabic bright medium light";
-			arabic.innerHTML = ayah.arabic;
+			arabic.textContent = ayah.arabic;
 			wrapper.appendChild(arabic);
 			telegramText += `${ayah.arabic}\n`;
 		}

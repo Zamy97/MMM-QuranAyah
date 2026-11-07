@@ -1,8 +1,19 @@
+@font-face {
+	font-family: "Amiri Quran";
+	src: url("fonts/AmiriQuran-Regular.ttf") format("truetype");
+	font-weight: normal;
+	font-style: normal;
+	font-display: swap;
+}
+
 .MMM-RandomQuranAyah .txt-arabic {
+	font-family: "Amiri Quran", "Noto Naskh Arabic", "Scheherazade New", serif;
 	direction: rtl;
+	unicode-bidi: isolate;
 	text-align: center;
-	line-height: 1.55;
+	line-height: 1.7;
 	margin-bottom: 6px;
+	font-feature-settings: "liga" 1, "calt" 1;
 }
 
 .MMM-RandomQuranAyah .txt-translation {

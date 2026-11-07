@@ -8,6 +8,7 @@ Maintained fork of the original [slametps/MMM-RandomQuranAyah](https://github.co
 - Native Node `fetch` — no deprecated `request` / `async` packages
 - Failed API calls are logged; MagicMirror does **not** crash
 - One combined API request for Arabic + translation
+- Bundled **Amiri Quran** font so Uthmani Arabic renders without tofu boxes on Raspberry Pi
 - Optional **daily** rotation (same ayah all day), matching our other house modules
 - Drop-in compatible with existing house `config.js` and `.MMM-RandomQuranAyah` CSS
 
@@ -48,6 +49,7 @@ Restart MagicMirror (`pm2 restart magicmirror`).
 | `showArabic` | Show Arabic text | `true` |
 | `showTranslation` | Show translation text | `true` |
 | `surahArabicName` | Use Arabic surah name in the reference | `false` |
+| `arabicEdition` | Arabic text edition (`quran-uthmani`, `quran-simple`, …) | `quran-uthmani` |
 | `translationLang` | Edition id from [AlQuran editions](https://api.alquran.cloud/edition) | `en.yusufali` |
 | `rotationMode` | `"random"` or `"daily"` | `"random"` |
 | `updateInterval` | How often to fetch (ms) | `300000` (5 min) |
