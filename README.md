@@ -1,38 +1,35 @@
-# MMM-RandomQuranAyah
+# MMM-QuranAyah
 
 A [MagicMirror²](https://github.com/MagicMirrorOrg/MagicMirror) module that shows a **Quran ayah** from the [AlQuran Cloud API](https://alquran.cloud/api).
 
-Maintained fork of the original [slametps/MMM-RandomQuranAyah](https://github.com/slametps/MMM-RandomQuranAyah), rewritten for reliability:
+Built to match our other house modules ([MMM-DailyHadith](https://github.com/Zamy97/MMM-DailyHadith), [MMM-DailyDua](https://github.com/Zamy97/MMM-DailyDua)):
 
-- HTTPS only (the API now redirects `http://` → `https://`)
-- Native Node `fetch` — no deprecated `request` / `async` packages
+- HTTPS + native Node `fetch` (Node 18+)
 - Failed API calls are logged; MagicMirror does **not** crash
 - One combined API request for Arabic + translation
-- Bundled **Amiri Quran** font so Uthmani Arabic renders without tofu boxes on Raspberry Pi
-- Optional **daily** rotation (same ayah all day), matching our other house modules
-- Drop-in compatible with existing house `config.js` and `.MMM-RandomQuranAyah` CSS
+- Bundled **Amiri Quran** font for clean Uthmani Arabic on Raspberry Pi
+- Random or daily rotation
 
 ## Installation
 
 ```bash
 cd ~/MagicMirror/modules
-# remove the old third-party copy if present
-rm -rf MMM-RandomQuranAyah
-git clone https://github.com/Zamy97/MMM-RandomQuranAyah.git
+git clone https://github.com/Zamy97/MMM-QuranAyah.git
 ```
 
-No `npm install` required (Node 18+).
+No `npm install` required.
 
 Add to `~/MagicMirror/config/config.js`:
 
 ```js
 {
-	module: "MMM-RandomQuranAyah",
+	module: "MMM-QuranAyah",
 	position: "bottom_bar",
 	config: {
 		showArabic: true,
 		showTranslation: true,
 		surahArabicName: false,
+		arabicEdition: "quran-uthmani",
 		translationLang: "en.yusufali",
 		rotationMode: "random",
 		updateInterval: 300000
@@ -59,11 +56,18 @@ Restart MagicMirror (`pm2 restart magicmirror`).
 
 If you use [MMM-TelegramBot](https://github.com/eouia/MMM-TelegramBot), `/quranverse` returns the ayah currently on the mirror.
 
-## Migrating from slametps/MMM-RandomQuranAyah
+## Migrating from MMM-RandomQuranAyah
 
-1. Replace the module folder (clone above).
-2. Keep your existing `config` block — keys are compatible. `apiVersion` is ignored if still present.
-3. House `custom.css` selectors (`.MMM-RandomQuranAyah .txt-arabic`, etc.) continue to work.
+If you previously used the old folder name:
+
+```bash
+cd ~/MagicMirror/modules
+pm2 stop magicmirror
+rm -rf MMM-RandomQuranAyah
+git clone https://github.com/Zamy97/MMM-QuranAyah.git
+```
+
+Then in `config.js` change `module: "MMM-RandomQuranAyah"` → `module: "MMM-QuranAyah"`, and in `custom.css` rename `.MMM-RandomQuranAyah` selectors to `.MMM-QuranAyah`.
 
 ## License
 

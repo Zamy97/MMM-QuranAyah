@@ -1,5 +1,5 @@
 /* Magic Mirror
- * Node Helper: MMM-RandomQuranAyah
+ * Node Helper: MMM-QuranAyah
  *
  * Fetches a Quran ayah from the AlQuran Cloud API over HTTPS.
  * Uses native fetch — no request / async dependencies.

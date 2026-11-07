@@ -6,7 +6,7 @@
 	font-display: swap;
 }
 
-.MMM-RandomQuranAyah .txt-arabic {
+.MMM-QuranAyah .txt-arabic {
 	font-family: "Amiri Quran", "Noto Naskh Arabic", "Scheherazade New", serif;
 	direction: rtl;
 	unicode-bidi: isolate;
@@ -16,17 +16,17 @@
 	font-feature-settings: "liga" 1, "calt" 1;
 }
 
-.MMM-RandomQuranAyah .txt-translation {
+.MMM-QuranAyah .txt-translation {
 	text-align: center;
 	line-height: 1.4;
 	font-style: italic;
 }
 
-.MMM-RandomQuranAyah .txt-reference {
+.MMM-QuranAyah .txt-reference {
 	text-align: center;
 	margin-top: 2px;
 }
 
-.MMM-RandomQuranAyah .error {
+.MMM-QuranAyah .error {
 	color: #ff6b6b;
 }

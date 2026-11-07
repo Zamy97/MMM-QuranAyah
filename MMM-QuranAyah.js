@@ -1,4 +1,4 @@
-Module.register("MMM-RandomQuranAyah", {
+Module.register("MMM-QuranAyah", {
 	defaults: {
 		showArabic: true,
 		showTranslation: true,
@@ -11,7 +11,7 @@ Module.register("MMM-RandomQuranAyah", {
 	},
 
 	getStyles() {
-		return ["MMM-RandomQuranAyah.css"];
+		return ["MMM-QuranAyah.css"];
 	},
 
 	getTranslations() {
