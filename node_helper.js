@@ -5,7 +5,14 @@
  * Uses native fetch — no request / async dependencies.
  */
 
+const dns = require("dns");
 const NodeHelper = require("node_helper");
+
+// Many home networks (and Pis) advertise IPv6 but cannot route it.
+// Prefer A records so fetch does not fail with ENETUNREACH on AAAA.
+if (typeof dns.setDefaultResultOrder === "function") {
+	dns.setDefaultResultOrder("ipv4first");
+}
 
 const API_BASE = "https://api.alquran.cloud/v1";
 const TOTAL_AYAHS = 6236;
@@ -30,6 +37,14 @@ module.exports = NodeHelper.create({
 			return (this.getDayOfYear(new Date()) % TOTAL_AYAHS) + 1;
 		}
 		return Math.floor(Math.random() * TOTAL_AYAHS) + 1;
+	},
+
+	formatFetchError(error) {
+		const cause = error && error.cause;
+		if (cause && cause.code) {
+			return `fetch failed (${cause.code}${cause.address ? ` ${cause.address}` : ""})`;
+		}
+		return error.message || String(error);
 	},
 
 	async fetchJson(url) {
@@ -94,9 +109,9 @@ module.exports = NodeHelper.create({
 				this.sendSocketNotification("AYAH_RESULT", ayah);
 			})
 			.catch((error) => {
-				console.error(`${this.name}:`, error.message || error);
+				console.error(`${this.name}:`, this.formatFetchError(error));
 				this.sendSocketNotification("AYAH_ERROR", {
-					message: error.message || "Failed to fetch ayah"
+					message: this.formatFetchError(error)
 				});
 			});
 	}
