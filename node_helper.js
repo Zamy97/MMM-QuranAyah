@@ -18,7 +18,9 @@ const API_BASE = "https://api.alquran.cloud/v1";
 const TOTAL_AYAHS = 6236;
 const DEFAULT_ARABIC = "quran-uthmani";
 const DEFAULT_TRANSLATION = "en.yusufali";
-const FETCH_TIMEOUT_MS = 15000;
+const FETCH_TIMEOUT_MS = 20000;
+const FETCH_RETRIES = 3;
+const RETRY_DELAY_MS = 2000;
 
 module.exports = NodeHelper.create({
 	start() {
@@ -39,6 +41,25 @@ module.exports = NodeHelper.create({
 		return Math.floor(Math.random() * TOTAL_AYAHS) + 1;
 	},
 
+	sleep(ms) {
+		return new Promise((resolve) => setTimeout(resolve, ms));
+	},
+
+	isRetryable(error) {
+		const code = (error && error.cause && error.cause.code) || error.code || "";
+		const message = error.message || "";
+		return (
+			code === "UND_ERR_CONNECT_TIMEOUT" ||
+			code === "ETIMEDOUT" ||
+			code === "ECONNRESET" ||
+			code === "ENETUNREACH" ||
+			code === "EAI_AGAIN" ||
+			code === "ENOTFOUND" ||
+			message.includes("abort") ||
+			message.includes("fetch failed")
+		);
+	},
+
 	formatFetchError(error) {
 		const cause = error && error.cause;
 		if (cause && cause.code) {
@@ -47,7 +68,7 @@ module.exports = NodeHelper.create({
 		return error.message || String(error);
 	},
 
-	async fetchJson(url) {
+	async fetchJsonOnce(url) {
 		const controller = new AbortController();
 		const timer = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
 
@@ -66,6 +87,28 @@ module.exports = NodeHelper.create({
 		} finally {
 			clearTimeout(timer);
 		}
+	},
+
+	async fetchJson(url) {
+		let lastError = null;
+
+		for (let attempt = 1; attempt <= FETCH_RETRIES; attempt++) {
+			try {
+				return await this.fetchJsonOnce(url);
+			} catch (error) {
+				lastError = error;
+				if (attempt < FETCH_RETRIES && this.isRetryable(error)) {
+					console.warn(
+						`${this.name}: attempt ${attempt}/${FETCH_RETRIES} failed (${this.formatFetchError(error)}); retrying…`
+					);
+					await this.sleep(RETRY_DELAY_MS * attempt);
+					continue;
+				}
+				throw error;
+			}
+		}
+
+		throw lastError;
 	},
 
 	async fetchAyah(payload) {
