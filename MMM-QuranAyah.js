@@ -3,8 +3,7 @@ Module.register("MMM-QuranAyah", {
 		showArabic: true,
 		showTranslation: true,
 		surahArabicName: false,
-		arabicEdition: "quran-uthmani",
-		translationLang: "en.yusufali",
+		dataFile: "data/ayahs.json",
 		rotationMode: "random",
 		updateInterval: 300000,
 		animationSpeed: 2500
@@ -36,8 +35,7 @@ Module.register("MMM-QuranAyah", {
 
 	requestAyah() {
 		this.sendSocketNotification("GET_AYAH", {
-			arabicEdition: this.config.arabicEdition,
-			translationLang: this.config.translationLang,
+			dataFile: this.config.dataFile,
 			rotationMode: this.config.rotationMode
 		});
 	},
@@ -91,13 +89,13 @@ Module.register("MMM-QuranAyah", {
 		if (this.config.showTranslation && ayah.translation) {
 			const translation = document.createElement("div");
 			translation.className = "txt-translation bright small light";
-			translation.innerHTML = `${ayah.translation} (${reference})`;
+			translation.textContent = `${ayah.translation} (${reference})`;
 			wrapper.appendChild(translation);
 			telegramText += `_${ayah.translation}_\n(${reference})`;
 		} else {
 			const refOnly = document.createElement("div");
 			refOnly.className = "txt-reference dimmed xsmall light";
-			refOnly.innerHTML = `(${reference})`;
+			refOnly.textContent = `(${reference})`;
 			wrapper.appendChild(refOnly);
 			telegramText += `(${reference})`;
 		}
@@ -115,7 +113,6 @@ Module.register("MMM-QuranAyah", {
 
 		if (notification === "AYAH_ERROR") {
 			this.errorMessage = payload.message;
-			// Keep the last good ayah on screen if we have one.
 			if (!this.ayah) {
 				this.updateDom(this.config.animationSpeed);
 			}

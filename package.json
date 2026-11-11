@@ -1,8 +1,11 @@
 {
   "name": "mmm-quranayah",
-  "version": "1.0.0",
-  "description": "MagicMirror² module that displays a random (or daily) Quran ayah via the AlQuran Cloud API over HTTPS.",
+  "version": "2.0.0",
+  "description": "MagicMirror² module that displays a random or daily Quran ayah from bundled local data (offline).",
   "main": "MMM-QuranAyah.js",
+  "scripts": {
+    "build:data": "node scripts/build-ayahs.js"
+  },
   "keywords": [
     "magicmirror",
     "magicmirror2",
